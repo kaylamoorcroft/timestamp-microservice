@@ -42,9 +42,16 @@ app.get("/api/:date?", function (req, res) {
   }  
 
   const unixDate = Date.parse(date);
+  const dateString = date.toUTCString();
 
   // return JSON object
-  res.json({unix: unixDate, utc: date.toUTCString()});
+  if (dateString !== "Invalid Date") {
+    res.json({unix: unixDate, utc: dateString});
+  }
+  // invalid input date string
+  else {
+    res.json({error: dateString});
+  }
 });
 
 
