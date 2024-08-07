@@ -24,6 +24,28 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// date API to get Unix timestamp of the input date in milliseconds
+app.get("/api/:date?", function (req, res) {
+  const inputDate = req.params.date;
+  let date;
+  // empty date parameter 
+  if (!inputDate) {
+    date = new Date();
+  }
+  // inputDate is a string
+  else if (isNaN(inputDate)) {
+    date = new Date(inputDate);
+  }
+  // inputDate is a number
+  else {
+    date = new Date(Number(inputDate));
+  }  
+
+  const unixDate = Date.parse(date);
+
+  // return JSON object
+  res.json({unix: unixDate, utc: date.toUTCString()});
+});
 
 
 // Listen on port set in environment variable or default to 3000
